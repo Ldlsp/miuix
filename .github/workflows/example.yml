@@ -126,7 +126,7 @@ jobs:
           path: Miuix-ios-arm64-unsigned.ipa
           archive: false
 
-  android:
+    android:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Sources
@@ -142,24 +142,18 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - name: Decode android signing key
-        run: echo ${{ secrets.SIGNING_KEY }} | base64 -d > keystore.jks
-      - name: Build android universal platform
-        run: ./gradlew assembleRelease
-        env:
-          KEYSTORE_PATH: "../../keystore.jks"
-          KEYSTORE_PASS: ${{ secrets.KEY_STORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      - name: Rename android universal artifact
-        run: mv example/android/build/outputs/apk/release/*.apk Miuix-android-universal-apk.apk
+      - name: Build android debug apk
+        run: ./gradlew :example:android:assembleDebug
+      - name: Rename android artifact
+        run: mv example/android/build/outputs/apk/debug/*.apk Miuix-android-universal-apk.apk
         shell: bash
-      - name: Upload Miuix android universal artifact
+      - name: Upload Miuix android artifact
         uses: actions/upload-artifact@v7
         with:
           name: Miuix-android-universal-apk.apk
           path: Miuix-android-universal-apk.apk
           archive: false
+
 
   post_telegram:
     needs: [build, ios, android]
