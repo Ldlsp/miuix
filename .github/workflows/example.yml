@@ -8,7 +8,7 @@ on:
       - "CLAUDE.md"
       - "AGENTS.md"
       - "docs/**"
-      
+
   workflow_dispatch:
 
 concurrency:
@@ -126,7 +126,7 @@ jobs:
           path: Miuix-ios-arm64-unsigned.ipa
           archive: false
 
-android:
+  android:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Sources
