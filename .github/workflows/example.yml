@@ -8,7 +8,9 @@ on:
       - "CLAUDE.md"
       - "AGENTS.md"
       - "docs/**"
-workflow_dispatch:
+      
+  workflow_dispatch:
+
 concurrency:
   group: example-${{ github.ref }}
   cancel-in-progress: true
